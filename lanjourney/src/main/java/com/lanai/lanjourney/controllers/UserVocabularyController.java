@@ -1,14 +1,17 @@
 package com.lanai.lanjourney.controllers;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lanai.lanjourney.dto.AddUserVocabRequest;
+import com.lanai.lanjourney.dto.UpdateUserVocabStatusRequest;
 import com.lanai.lanjourney.dto.UserVocabResponse;
 import com.lanai.lanjourney.entity.UserVocabulary;
 import com.lanai.lanjourney.service.UserVocabularyService;
@@ -39,4 +42,25 @@ public class UserVocabularyController {
         r.firstAddedAt = uv.getFirstAddedAt();
         return r;
     }
+
+    @PutMapping("/{vocabId}")
+    public UserVocabResponse updateStatus(@PathVariable long userId, @PathVariable long vocabId, @Valid @RequestBody UpdateUserVocabStatusRequest req) {
+        UserVocabulary uv = service.updateUserVocabularyStatus(userId, vocabId, req);
+
+        UserVocabResponse r = new UserVocabResponse();
+        r.userId = uv.getId().getUserId();
+        r.vocabId = uv.getId().getVocabId();
+        r.status = uv.getStatus();
+        r.timesSeen = uv.getTimesSeen();
+        r.reviewCount = uv.getReviewCount();
+        r.firstAddedAt = uv.getFirstAddedAt();
+        return r;
+    }
+
+    @DeleteMapping("/{vocabId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeUserVocabulary(@PathVariable long userId, @PathVariable long vocabId) {
+        service.removeUserVocabulary(userId, vocabId);
+    }
 }
+

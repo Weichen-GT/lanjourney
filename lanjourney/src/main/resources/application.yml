@@ -5,8 +5,9 @@ spring:
     openai:
       api-key: ${OPENAI_API_KEY}
       chat:
-        model: gpt-4o-mini
-        temperature: 0.2
+        options:
+          model: gpt-4o-mini
+          temperature: 0.2
   datasource:
     url: jdbc:postgresql://localhost:5432/vocabdb
     username: vocab

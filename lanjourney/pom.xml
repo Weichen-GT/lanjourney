@@ -77,7 +77,6 @@
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-
 		<!-- If you want URL -> fetch page text -->
 		<dependency>
 			<groupId>org.jsoup</groupId>

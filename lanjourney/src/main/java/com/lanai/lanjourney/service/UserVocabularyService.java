@@ -3,6 +3,7 @@ package com.lanai.lanjourney.service;
 import org.springframework.stereotype.Service;
 
 import com.lanai.lanjourney.dto.AddUserVocabRequest;
+import com.lanai.lanjourney.dto.UpdateUserVocabStatusRequest;
 import com.lanai.lanjourney.entity.AppUser;
 import com.lanai.lanjourney.entity.UserVocabulary;
 import com.lanai.lanjourney.entity.UserVocabularyId;
@@ -48,5 +49,22 @@ public class UserVocabularyService {
             }
             return userVocabRepo.save(uv);
         });
+    }
+
+    public UserVocabulary updateUserVocabularyStatus(long userId, long vocabId, UpdateUserVocabStatusRequest req) {
+        UserVocabularyId id = new UserVocabularyId(userId, vocabId);
+        UserVocabulary uv = userVocabRepo.findById(id)
+                .orElseThrow(() -> new NotFoundException("User Vocabulary not found: userId=" + userId + ", vocabId=" + vocabId));
+
+        uv.setStatus(req.status);
+        return userVocabRepo.save(uv);
+    }
+
+    public void removeUserVocabulary(long userId, long vocabId) {
+        UserVocabularyId id = new UserVocabularyId(userId, vocabId);
+        if (!userVocabRepo.existsById(id)) {
+            throw new NotFoundException("User Vocabulary not found: userId=" + userId + ", vocabId=" + vocabId);
+        }
+        userVocabRepo.deleteById(id);
     }
 }

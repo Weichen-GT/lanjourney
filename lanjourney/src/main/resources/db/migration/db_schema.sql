@@ -67,3 +67,35 @@ CREATE TABLE IF NOT EXISTS user_vocabulary (
 
 CREATE INDEX IF NOT EXISTS idx_user_vocab_user_status ON user_vocabulary (user_id, status);
 CREATE INDEX IF NOT EXISTS idx_user_vocab_vocab ON user_vocabulary (vocab_id);
+
+CREATE TABLE IF NOT EXISTS vocab_ai_log (
+  id                BIGSERIAL PRIMARY KEY,
+
+  term              TEXT NOT NULL,              -- word or phrase like "take off"
+  is_phrase         BOOLEAN NOT NULL DEFAULT FALSE,
+
+  definition_en     TEXT,
+  explanation_zh    TEXT,
+  part_of_speech    TEXT,
+  example_sentence  TEXT,
+
+  created_at        TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at        TIMESTAMPTZ NOT NULL DEFAULT NOW()
+
+);
+
+CREATE TABLE IF NOT EXISTS common_words (
+  id               BIGSERIAL PRIMARY KEY,
+  word             TEXT NOT NULL,
+  popularity_score INTEGER NOT NULL DEFAULT 0,
+  part_of_speech   TEXT,
+  last_updated     TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Case-insensitive uniqueness
+CREATE UNIQUE INDEX IF NOT EXISTS uq_common_words_word_ci
+  ON common_words (LOWER(word));
+
+-- Helpful index for top-N queries
+CREATE INDEX IF NOT EXISTS idx_common_words_popularity
+  ON common_words (popularity_score DESC);

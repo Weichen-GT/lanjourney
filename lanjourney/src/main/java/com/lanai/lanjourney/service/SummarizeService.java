@@ -3,9 +3,7 @@ package com.lanai.lanjourney.service;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.stereotype.Service;
 
-import io.swagger.v3.oas.annotations.servers.Server;
-
-@Server
+@Service
 public class SummarizeService {
 
     private final ChatClient chatClient;

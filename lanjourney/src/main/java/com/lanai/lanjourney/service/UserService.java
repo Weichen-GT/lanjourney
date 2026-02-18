@@ -33,4 +33,11 @@ public class UserService {
             throw new IllegalArgumentException("User already exists (email or provider identity is not unique).");
         }
     }
+
+    public void deleteUser(long userId) {
+        if (!userRepo.existsById(userId)) {
+            throw new IllegalArgumentException("User not found: " + userId);
+        }
+        userRepo.deleteById(userId);
+    }
 }
