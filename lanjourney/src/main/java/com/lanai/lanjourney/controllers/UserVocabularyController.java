@@ -39,7 +39,6 @@ public class UserVocabularyController {
         r.status = uv.getStatus();
         r.timesSeen = uv.getTimesSeen();
         r.reviewCount = uv.getReviewCount();
-        r.firstAddedAt = uv.getFirstAddedAt();
         return r;
     }
 
@@ -53,7 +52,6 @@ public class UserVocabularyController {
         r.status = uv.getStatus();
         r.timesSeen = uv.getTimesSeen();
         r.reviewCount = uv.getReviewCount();
-        r.firstAddedAt = uv.getFirstAddedAt();
         return r;
     }
 
@@ -63,4 +61,3 @@ public class UserVocabularyController {
         service.removeUserVocabulary(userId, vocabId);
     }
 }
-
